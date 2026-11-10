@@ -7,7 +7,7 @@
 // 用户填入的值会成为该 Worker 的 Secret，后续更新不会被覆盖。
 // =============================================================================
 {
-  "name": "openlist-tsworkers",
+  "name": "openlist-worker",
   "main": "src/backend/worker.ts",
 
   // iconv-lite 只有 FTP 驱动在用，而 Workers 没有 TCP socket、FTP 驱动不可用。
@@ -19,7 +19,7 @@
   },
   "compatibility_date": "2026-08-04",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": false,
   "keep_vars": true,
   "assets": {
@@ -27,6 +27,11 @@
     "binding": "ASSETS",
     "run_worker_first": ["/", "/index.html"]
   },
+
+  // 持久化存储：绑定既有 KV 命名空间（内含 openlist_config / openlist_jwt_secret）
+  "kv_namespaces": [
+    { "binding": "KV", "id": "a5295c62265f4f1684f642e71b44f23c" }
+  ],
 
   // ===========================================================================
   // 普通环境变量（非敏感）
